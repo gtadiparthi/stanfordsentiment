@@ -67,6 +67,29 @@ public class Sentiment {
 	            return "";
 	        }
 	    }
+	 
+	 public static int findSentimentInt(String line) {
+
+	       
+	        int mainSentiment=0;
+
+	        if(line != null && line.length()>0){
+	            int longest = 0;
+	            //System.out.println(line);
+	            Annotation annotation = pipeline.process(line);
+	            for (CoreMap sentence :annotation.get(CoreAnnotations.SentencesAnnotation.class )) {
+	                Tree tree =	sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
+	                int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
+	                String partText = sentence.toString();
+	                if (partText.length() > longest) {
+	                    mainSentiment = sentiment;
+	                    //System.out.println(+sentiment+" "+partText.length());
+	                    longest = partText.length();
+	                }
+	            }
+	        }
+	        return (mainSentiment);
+	        }
 
 }
 
