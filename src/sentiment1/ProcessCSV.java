@@ -13,7 +13,7 @@ public class ProcessCSV {
 
 	public static void main(String[] args) {
 		Sentiment.init();
-		readCSV("/Users/gopalakrishnatadiparthi/Documents/PythonPrograms/debate-parser/dem_debate.csv","/Users/gopalakrishnatadiparthi/Documents/PythonPrograms/debate-parser/dem_debate_sentiment.csv");
+		readCSV("/Users/gopalakrishnatadiparthi/Documents/PythonPrograms/debate-parser/all_debates.csv","/Users/gopalakrishnatadiparthi/Documents/PythonPrograms/debate-parser/all_debates_snlpsent.csv");
 		
 		// The input file contains the following fields
 		// SentenceNo, SequenceNo, Speaker, Text
@@ -28,27 +28,29 @@ public class ProcessCSV {
 			CSVWriter writer = new CSVWriter(new FileWriter(outputFilename));
 			
 			String[] row = null;
-			String[] results = new String[2];
+			String[] results = new String[5];
 			int rowno = 0;
 			while ((row = csvReader.readNext()) != null){
-				results[0] = row[0];
-				
+				results[0] = row[0]; //Party
+				results[1] = row[1];//Debate NO
+				results[2] = row[2];//Sentence No
+				results[3] = row[3];//Sequence No
 				//if the value is empty, don't process it
-				if (!(row[3].isEmpty() || row[1].toUpperCase().matches("NA|NONE|ALL|YES|NO|N/A"))){
+				if (!(row[5].isEmpty() || row[5].toUpperCase().matches("NA|NONE|ALL|YES|NO|N/A"))){
 					if (rowno != 0)
-						results[1] = Integer.toString(Sentiment.findSentimentInt(row[3]));
+						results[4] = Integer.toString(Sentiment.findSentimentInt(row[5]));
 					else
-						results[1] = "Score";
+						results[4] = "Score";
 					// If there is an applause, the positive sentiment hits the roof
-					if (row[3].toUpperCase().matches("(.*)APPLAUSE(.*)|(.*)LAUGHTER(.*)|(.*)CHEERING(.*)")){
-						results[1]="5";
+					if (row[5].toUpperCase().matches("(.*)APPLAUSE(.*)|(.*)LAUGHTER(.*)|(.*)CHEERING(.*)")){
+						results[4]="5";
 					}
 					writer.writeNext(results);
 								
 				}
 				rowno++;
 				System.out.println("Processing Row No: "+rowno);
-				System.out.println(row[0] + " #" + results[1]);
+				System.out.println(row[0] + row[5] +" # " + results[4]);
 			}
 			csvReader.close();
 			writer.close();

@@ -31,7 +31,7 @@ public class TreePrintout {
 		    if (args.length > 0) {
 		      annotation = new Annotation(IOUtils.slurpFileNoExceptions(args[0]));
 		    } else {
-		      annotation = new Annotation("This quiet , introspective and entertaining independent is worth seeking");
+		      annotation = new Annotation("A majority of the candidates on this stage have supported amnesty. I have never supported amnesty, and I led the fight against Chuck Schumer's gang of eight amnesty legislation in the Senate.");
 		    }
 
 		    pipeline.annotate(annotation);

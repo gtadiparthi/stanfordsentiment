@@ -34,8 +34,8 @@ public class Sentiment {
 	 public static String findSentiment(String line) {
 
 	       
-	        int mainSentiment=0;
-
+	        int mainSentiment=-1;
+	        // Longer sentences tend to be negative
 	        if(line != null && line.length()>0){
 	            int longest = 0;
 	            //System.out.println(line);
@@ -44,6 +44,9 @@ public class Sentiment {
 	                Tree tree =	sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
 	                int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
 	                String partText = sentence.toString();
+	                //System.out.println(partText);
+	                
+	                /* If there are multiple sentences within a line, take the sentiment of the longest sentence */
 	                if (partText.length() > longest) {
 	                    mainSentiment = sentiment;
 	                    //System.out.println(+sentiment+" "+partText.length());
@@ -71,7 +74,7 @@ public class Sentiment {
 	 public static int findSentimentInt(String line) {
 
 	       
-	        int mainSentiment=0;
+	        int mainSentiment=-1;
 
 	        if(line != null && line.length()>0){
 	            int longest = 0;
@@ -81,6 +84,8 @@ public class Sentiment {
 	                Tree tree =	sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
 	                int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
 	                String partText = sentence.toString();
+
+	                /* If there are multiple sentences within a line, take the sentiment of the longest sentence */
 	                if (partText.length() > longest) {
 	                    mainSentiment = sentiment;
 	                    //System.out.println(+sentiment+" "+partText.length());
